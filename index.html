@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark light">
+  <meta id="meta-theme-color" name="theme-color" content="#0b0f17">
+  <title>ITD+ Bags</title>
+  <meta name="description" content="Сообщи о баге и поддержи разработку">
+  <link rel="stylesheet" href="style.css">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ITD+ Bags">
+  <meta property="og:description" content="Сообщи о баге и поддержи разработку">
+  <link rel="icon" type="image" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-noise"></div>
+  <div class="geo-layer">
+    <div class="shape shape-blob-1" data-speed="0.03"></div>
+    <div class="shape shape-blob-2" data-speed="0.05"></div>
+  </div>
+
+  <div class="container">
+    <section class="bug-report" style="margin-bottom: 120px; text-align: center;">
+      <div class="reveal">
+        <h1><span class="main-text">ITD+ Bags</span></h1>
+        <p class="subtitle">Отправьте свои баги на страницу ниже</p>
+        <a href="https://xn--d1ah4a.com/test_pool" class="btn btn-primary" target="_blank" rel="noopener">Отправить баг</a>
+      </div>
+    </section>
+    <section id="donations">
+      <h2 class="reveal">
+        <svg viewBox="0 0 24 24">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+        Поддержать
+      </h2>
+      <div class="grid grid-2">
+        <div class="card reveal" style="border-color: rgba(92, 75, 133, 0.5); transition-delay: 0.1s;">
+          <div class="card-top">
+            <h3 style="color: #dcc2e8;">TBank</h3>
+            <svg style="color: #dcc2e8;" viewBox="0 0 24 24">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+              <line x1="1" y1="10" x2="23" y2="10"></line>
+            </svg>
+          </div>
+          <p>Прямая поддержка моих проектов и разработок.</p>
+          <a href="https://www.tinkoff.ru/rm/r_OBmDHGjDNk.HhEVETyRLN/UCuz083345" target="_blank" rel="noopener" class="btn" style="background: var(--sbp-color); color: #fff; margin-top: auto;">Отправить</a>
+        </div>
+        <div class="card reveal" style="background: linear-gradient(145deg, rgba(0,152,234,0.1), transparent); border-color: rgba(0,152,234,0.3); transition-delay: 0.2s;">
+          <div class="card-top">
+            <h3 style="color: var(--ton-color)">TON Network</h3>
+            <svg style="color: var(--ton-color)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L22 12L12 22L2 12L12 2Z"></path>
+              <path d="M2 12H22"></path>
+            </svg>
+          </div>
+          <div class="copy-area" id="ton-addr" onclick="copyTon(this.nextElementSibling)">UQB5gdaSHKhZThnHjptx5-Po2IxGrsNy6U-DmE5D59bk4YtG</div>
+          <button class="btn btn-ton" onclick="copyTon(this)" style="margin-top: 15px;">Скопировать адрес</button>
+        </div>
+      </div>
+    </section>
+  </div>
+   <footer style="text-align: center; padding: 80px 20px 40px; opacity: 0.3; font-size: 0.85rem; font-weight: 700;">
+      <p>&copy; 2020-2026 VCB PROJECT</p>
+    </footer>
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+    
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.addEventListener('mousemove', (e) => {
+      const shapes = document.querySelectorAll('.shape');
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      
+      shapes.forEach(shape => {
+        const speed = shape.getAttribute('data-speed');
+        const moveX = (x - 0.5) * 100 * speed;
+        const moveY = (y - 0.5) * 100 * speed;
+        shape.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      });
+    });
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+    function createRipple(event) {
+      const btn = event.currentTarget;
+      const circle = document.createElement("span");
+      const diameter = Math.max(btn.clientWidth, btn.clientHeight);
+      const radius = diameter / 2;
+      const rect = btn.getBoundingClientRect();
+      
+      circle.style.width = circle.style.height = `${diameter}px`;
+      circle.style.left = `${event.clientX - rect.left - radius}px`;
+      circle.style.top = `${event.clientY - rect.top - radius}px`;
+      circle.classList.add('ripple-span');
+      
+      const old = btn.querySelector('.ripple-span');
+      if(old) old.remove();
+      
+      btn.appendChild(circle);
+    }
+    document.querySelectorAll('.btn, .pill-link').forEach(el => el.addEventListener('click', createRipple));
+    window.addEventListener('scroll', () => {
+    });
+    async function copyTon(btn) {
+      const text = document.getElementById('ton-addr').innerText;
+      try {
+        await navigator.clipboard.writeText(text);
+        const original = btn.innerText;
+        btn.innerText = "Скопировано!";
+        btn.style.background = "#2ecc71";
+        setTimeout(() => {
+          btn.innerText = original;
+          btn.style.background = "";
+        }, 2000);
+      } catch(e) {
+        console.error('Copy failed', e);
+        btn.innerText = "Ошибка :(";
+      }
+    }
+  </script>
+</body>
+</html>
